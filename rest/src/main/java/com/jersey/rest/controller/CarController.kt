@@ -16,10 +16,11 @@ import javax.servlet.http.HttpServletRequest
  * Created by Jean on 7/21/17.
  */
 @Controller
+@RequestMapping("/car")
 class CarController(private val carRepository: CarRepository) {
     private val logger = Logger.getLogger(CarController::class.java!!)
 
-    @RequestMapping(value = "/car/list", method = arrayOf(RequestMethod.GET))
+    @GetMapping(value = "/list")
     @ResponseBody
     fun listAll(request: HttpServletRequest): List<Car> {
 
@@ -29,8 +30,7 @@ class CarController(private val carRepository: CarRepository) {
 
     }
 
-    @RequestMapping(value = "/car/add",method = arrayOf(RequestMethod.POST),
-                                       consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
+    @PostMapping(value = "/add", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     @ResponseBody
     fun addCar(@RequestBody car:Car, request:HttpServletRequest ): ResponseEntity<Car> {
         logger.info("Adicionando carro, ip: " + request.remoteAddr)
