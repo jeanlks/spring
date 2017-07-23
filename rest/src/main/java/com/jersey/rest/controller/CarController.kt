@@ -4,10 +4,11 @@ import com.jersey.rest.model.Car
 import com.jersey.rest.repository.CarRepository
 
 import org.apache.log4j.Logger
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 
 import javax.servlet.http.HttpServletRequest
 
@@ -26,5 +27,14 @@ class CarController(private val carRepository: CarRepository) {
 
         return carRepository.findAll() as List<Car>
 
+    }
+
+    @RequestMapping(value = "/car/add",method = arrayOf(RequestMethod.POST),
+                                       consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
+    @ResponseBody
+    fun addCar(@RequestBody car:Car, request:HttpServletRequest ): ResponseEntity<Car> {
+        logger.info("Adicionando carro, ip: " + request.remoteAddr)
+
+        return  ResponseEntity<Car>(carRepository.save(car), HttpStatus.OK);
     }
 }
