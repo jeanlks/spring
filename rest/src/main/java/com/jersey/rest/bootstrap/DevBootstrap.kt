@@ -17,10 +17,10 @@ class DevBootstrap(private val carRepository: CarRepository) : ApplicationListen
     }
 
     fun initData() {
-        val car = Car("Gol", "2000")
-        carRepository.save(car)
-
-        val car1 = Car("Celta", "2010")
-        carRepository.save(car1)
+//        val car = Car("Gol", "2000")
+//        carRepository.save(car)
+//
+//        val car1 = Car("Celta", "2010")
+//        carRepository.save(car1)
     }
 }

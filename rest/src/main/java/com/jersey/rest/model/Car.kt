@@ -10,9 +10,9 @@ class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) var id: Long? = null
     var model: String? = null
-    var year: String? = null
+    var year: Int? = null
 
-    constructor(model: String, year: String) {
+    constructor(model: String, year: Int) {
         this.model = model
         this.year = year
     }
