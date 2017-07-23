@@ -23,10 +23,10 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
     }
 
     public void initData(){
-        Car car = new Car("Gol","2000");
-        carRepository.save(car);
-
-        Car car1 = new Car("Celta","2010");
-        carRepository.save(car1);
+//        Car car = new Car("Gol","2000");
+//        carRepository.save(car);
+//
+//        Car car1 = new Car("Celta","2010");
+//        carRepository.save(car1);
     }
 }
