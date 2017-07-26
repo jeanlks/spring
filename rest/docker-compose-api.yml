@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  restapi:
+    image: jeanlks/springrestaws
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - database_net
+    deploy:
+      replicas: 1
+networks:
+  database_net:
+    driver: overlay
