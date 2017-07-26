@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
 import javax.servlet.http.HttpServletRequest
+import javax.websocket.server.PathParam
 
 /**
  * Created by Jean on 7/21/17.
@@ -30,11 +31,20 @@ class CarController(private val carRepository: CarRepository) {
 
     }
 
-    @PostMapping(value = "/add", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
+    @PostMapping(consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     @ResponseBody
     fun addCar(@RequestBody car:Car, request:HttpServletRequest ): ResponseEntity<Car> {
         logger.info("Adicionando carro, ip: " + request.remoteAddr)
 
         return  ResponseEntity<Car>(carRepository.save(car), HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseBody
+    fun deleteCar(@PathVariable id: Long, request:HttpServletRequest ): String {
+        logger.info("Deletando carro, ip: " + request.remoteAddr)
+        carRepository.delete(id)
+        return  ("Sucesso")
+    }
+
 }
