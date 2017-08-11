@@ -16,7 +16,7 @@ import javax.websocket.server.PathParam
 /**
  * Created by Jean on 7/21/17.
  */
-@Controller
+@RestController
 @RequestMapping("/car")
 class CarController(private val carRepository: CarRepository) {
     private val logger = Logger.getLogger(CarController::class.java!!)
@@ -32,7 +32,6 @@ class CarController(private val carRepository: CarRepository) {
     }
 
     @PostMapping(consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    @ResponseBody
     fun addCar(@RequestBody car:Car, request:HttpServletRequest ): ResponseEntity<Car> {
         logger.info("Adicionando carro, ip: " + request.remoteAddr)
 
@@ -40,7 +39,6 @@ class CarController(private val carRepository: CarRepository) {
     }
 
     @DeleteMapping(value = "/{id}")
-    @ResponseBody
     fun deleteCar(@PathVariable id: Long, request:HttpServletRequest ): String {
         logger.info("Deletando carro, ip: " + request.remoteAddr)
         carRepository.delete(id)
