@@ -32,17 +32,17 @@ class CarController(private val carRepository: CarRepository) {
     }
 
     @PostMapping(consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    fun addCar(@RequestBody car:Car, request:HttpServletRequest ): ResponseEntity<Car> {
+    fun addCar(@RequestBody car: Car, request: HttpServletRequest): ResponseEntity<Car> {
         logger.info("Adicionando carro, ip: " + request.remoteAddr)
 
-        return  ResponseEntity<Car>(carRepository.save(car), HttpStatus.OK);
+        return ResponseEntity<Car>(carRepository.save(car), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    fun deleteCar(@PathVariable id: Long, request:HttpServletRequest ): String {
+    fun deleteCar(@PathVariable id: Long, request: HttpServletRequest): String {
         logger.info("Deletando carro, ip: " + request.remoteAddr)
         carRepository.delete(id)
-        return  ("Sucesso")
+        return ("Sucesso")
     }
 
 }

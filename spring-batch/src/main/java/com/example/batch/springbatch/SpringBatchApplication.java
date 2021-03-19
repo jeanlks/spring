@@ -1,12 +1,13 @@
-package com.spring.web.spring5webapp;
+package com.example.batch.springbatch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Spring5webappApplication {
+public class SpringBatchApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Spring5webappApplication.class, args);
+        SpringApplication.run(SpringBatchApplication.class, args);
     }
+
 }

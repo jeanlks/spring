@@ -11,7 +11,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
+public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private AuthorRepository authorRepository;
     private BookRepository bookRepository;
@@ -28,12 +28,12 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
         initData();
     }
 
-    private void initData(){
-        Author author = new Author("teste","teste");
-        Publisher publisher = new Publisher("Folha","SP");
+    private void initData() {
+        Author author = new Author("teste", "teste");
+        Publisher publisher = new Publisher("Folha", "SP");
         publisherRepository.save(publisher);
 
-        Book book = new Book("teste","teste",publisher);
+        Book book = new Book("teste", "teste", publisher);
         author.getBooks().add(book);
         book.getAuthors().add(author);
         authorRepository.save(author);

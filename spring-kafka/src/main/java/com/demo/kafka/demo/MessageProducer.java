@@ -47,7 +47,8 @@ public class MessageProducer {
     public void sendMessageToOutput(String message) {
         kafkaTemplate.send(outputTopic, message);
     }
-    public void sendGreeting(Greeting greeting){
+
+    public void sendGreeting(Greeting greeting) {
         greetingKafkaTemplate.send(outputTopic, greeting);
     }
 }

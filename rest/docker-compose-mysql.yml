@@ -10,7 +10,7 @@ services:
       - /home/ubuntu/datamysql
     environment:
       MYSQL_DATABASE: spring
-      MYSQL_ROOT_PASSWORD: 
+      MYSQL_ROOT_PASSWORD:
     networks:
       - database_net
     deploy:
