@@ -1,10 +1,12 @@
 package com.example.batch.springbatch;
 
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
@@ -17,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.sql.DataSource;
 
@@ -33,6 +35,13 @@ public class BatchConfig {
     @Autowired
     JobLauncher jobLauncher;
 
+    @Autowired
+    JobCompletionListener listener;
+
+    @Autowired
+    DataSource dataSource;
+
+
     @Bean
     public FlatFileItemReader<Person> reader(){
         return new FlatFileItemReaderBuilder<Person>()
@@ -46,13 +55,18 @@ public class BatchConfig {
                 .build();
     }
 
+    @Scheduled(fixedRate = 2000, initialDelayString = "10000")
+    public void execute() throws Exception {
+        jobLauncher.run(importUserJob(), new JobParametersBuilder().toJobParameters());
+    }
+
     @Bean
     public PersonItemProcessor getItemProcessor(){
         return new PersonItemProcessor();
     }
 
     @Bean
-    public JdbcBatchItemWriter<Person> writer(DataSource dataSource) {
+    public JdbcBatchItemWriter<Person> writer() {
         return new JdbcBatchItemWriterBuilder<Person>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
                 .sql("INSERT INTO people (first_name, last_name) VALUES (:firstName, :lastName)")
@@ -61,22 +75,22 @@ public class BatchConfig {
     }
 
     @Bean
-    public Job importUserJob(JobCompletionListener listener, Step step1) {
+    public Job importUserJob() {
         return jobBuilderFactory.get("importUserJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
-                .flow(step1)
+                .flow(step1())
                 .end()
                 .build();
     }
 
     @Bean
-    public Step step1(JdbcBatchItemWriter<Person> writer) {
+    public Step step1() {
         return stepBuilderFactory.get("step1")
                 .<Person, Person> chunk(2)
                 .reader(reader())
                 .processor(getItemProcessor())
-                .writer(writer)
+                .writer(writer())
                 .build();
     }
 }
